@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import cc.wubo.jpa.entity.manytomany.Student;
 import cc.wubo.jpa.entity.manytomany.Teacher;
 import cc.wubo.jpa.repository.manytomany.StudentRepository1;
 import cc.wubo.jpa.repository.manytomany.TeacherRepository;
+import cc.wubo.jpa.service.manytomany.TeacherService;
 /**
  * 注意:
  * 1.多对多关联关系中,不要使用级联保存,级联删除(这个规则同样适用与一对多的对应关系)
@@ -26,11 +28,13 @@ import cc.wubo.jpa.repository.manytomany.TeacherRepository;
 public class ManyToManyTest {
  	 TeacherRepository teacherRepo;
  	 StudentRepository1 studentRepo;
-	@Before
+ 	 TeacherService ts;
+ 	 @Before
 	public void init() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(App.class);
 		teacherRepo = context.getBean(TeacherRepository.class);
 		studentRepo = context.getBean(StudentRepository1.class);
+		ts=context.getBean(TeacherService.class);
 		
 	}
 	
@@ -72,6 +76,10 @@ public class ManyToManyTest {
 		teacherRepo.delete(findOne);
 //		teacherRepo.deleteAll();
 		
+	}
+	@Test
+	public void saveTwoEntity() {
+		ts.add();
 	}
 	
 
